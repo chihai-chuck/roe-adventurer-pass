@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans-CN" oncontextmenu="return false">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <meta name="format-detection" content="address=no">
+    <meta name="fragment" content="!">
+    <title>无限法则冒险家通行证第一赛季</title>
+    <script src="//cdn.bootcss.com/vue/2.5.18-beta.0/vue.min.js"></script>
+    <link rel="stylesheet" href="../styles/index.less">
+</head>
+
+<body>
+    <div class="adventurer-pass">
+        <ul ref="quickNav" class="quick-nav" :class="{touching:config.quickNav.touching}" @touchmove.prevent.stop="quickNavTouchMove" @touchend="config.quickNav.touching=false">
+            <li class="quick-nav-item" v-for="(n,index) in 21" :key="index" @click.stop="quickNavTouchActive(index)"><span :class="{active:config.quickNav.index===index&&config.quickNav.touching}">{{config.quickNav.caption[index]||index*5}}</span></li>
+        </ul>
+
+        <div class="adventurer-pass-title">第1赛季</div>
+        <div class="adventurer-pass-icon">
+            <div class="adventurer-pass-icon-free"></div>
+            <p></p>
+            <div class="adventurer-pass-icon-fees"></div>
+        </div>
+        <ul class="adventurer-pass-list">
+            <li v-for="(n,index) in 100" :id="`item${n}`" :key="index">
+                <div class="adventurer-pass-list-free">
+                    <div class="adventurer-pass-list-item" v-if="data.prize.free[n]">
+                        <p>{{data.prize.free[n].name}}</p>
+                        <img :src="`//cdn.max-c.com/wiki/755790/adventurer-pass-first-free-${index}.jpg`" :alt="data.prize.free[n].name">
+                    </div>
+                </div>
+                <p><span>{{n}}</span></p>
+                <div class="adventurer-pass-list-fees">
+                    <div class="adventurer-pass-list-item" :class="{array:data.prize.fees[n] instanceof Array}">
+                        <template v-if="data.prize.fees[n] instanceof Array">
+                            <div v-for="(item,i) in data.prize.fees[n]" :key="i">
+                                <img :src="`//cdn.max-c.com/wiki/755790/adventurer-pass-first-fees-${index}-${i}.jpg`" :alt="item.name">
+                                <p>{{item.name}}</p>
+                            </div>
+                        </template>
+                        <template v-else>
+                            <img :src="`//cdn.max-c.com/wiki/755790/adventurer-pass-first-fees-${index}.jpg`" :alt="data.prize.fees[n].name">
+                            <p>{{data.prize.fees[n].name}}</p>
+                        </template>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <script src="../controllers/index.js"></script>
+</body>
+</html>
+

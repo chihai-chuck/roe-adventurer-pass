@@ -1,0 +1,193 @@
+@import "control";
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    list-style-type: none;
+    -webkit-text-size-adjust: none;
+    zoom: 1;
+    resize: none;
+    font-family: -apple-system, BlinkMacSystemFont, Microsoft YaHei, Roboto, Arial, iconfont, sans-serif;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-touch-callout: none;
+    highlight-color: transparent;
+}
+.adventurer-pass {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url(//cdn.max-c.com/wiki/755790/adventurer-pass-first-bg.jpg) local center;
+    background-size: 40px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    &::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+    }
+    .quick-nav {
+        .align(v-center);
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 30px;
+        height: 100%;
+        &.touching {
+            background-color: rgba(255, 255, 255, .2);
+        }
+        > li {
+            width: 100%;
+            height: 30px;
+            padding: 5px;
+            > span {
+                .align(center);
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                font-size: 12px;
+                color: #fff;
+                &.active {
+                    background-color: rgba(0, 0, 0, .4);
+                }
+            }
+        }
+    }
+    &-title {
+        .align(v-center);
+        width: 100%;
+        height: 40px;
+        padding: 0 10px;
+        border-left: 4px solid #fff;
+        background-color: #535355;
+        font-weight: bold;
+        font-size: 16px;
+        color: #fff;
+    }
+    &-icon {
+        display: flex;
+        width: 100%;
+        height: 100px;
+        padding-right: 30px;
+        >  div {
+            flex: 1;
+            background-size: 60px;
+            background-repeat: no-repeat;
+            background-position: center bottom 16px;
+        }
+        > p {
+            width: 4px;
+            background-color: #535355;
+        }
+        &-free {
+            background-image: url(//cdn.max-c.com/wiki/755790/adventurer-pass-first-free-icon.png);
+        }
+        &-fees {
+            background-image: url(//cdn.max-c.com/wiki/755790/adventurer-pass-first-fees-icon.png);
+        }
+    }
+    &-list {
+        width: 100%;
+        > li {
+            display: flex;
+            width: 100%;
+            min-height: 88px;
+            padding-right: 30px;
+            > div {
+                .align(v-center);
+                flex: 1;
+                padding: 10px;
+                &.adventurer-pass-list-free {
+                    padding-right: 20px;
+                    .adventurer-pass-list-item {
+                        &::after {
+                            content: '';
+                            right: -5px;
+                            border-width: 6px 0 6px 6px;
+                            border-color: transparent transparent transparent #535355;
+                        }
+                        &.array > div > p,
+                        > p {
+                            .align(right);
+                            padding-right: 10px;
+                        }
+                    }
+                }
+                &.adventurer-pass-list-fees {
+                    padding-left: 20px;
+                    .adventurer-pass-list-item {
+                        &::before {
+                            content: '';
+                            left: -5px;
+                            border-width: 6px 6px 6px 0;
+                            border-color: transparent #535355 transparent transparent;
+                        }
+                        &.array > div > p,
+                        > p {
+                            padding-left: 10px;
+                        }
+                    }
+                }
+                .adventurer-pass-list-item {
+                    position: relative;
+                    display: flex;
+                    width: 100%;
+                    height: 68px;
+                    padding: 10px;
+                    border-radius: 4px;
+                    background-color: #535355;
+                    &::before,
+                    &::after {
+                        .absolute(m);
+                        width: 0;
+                        height: 0;
+                        border-style: solid;
+                    }
+                    &.array {
+                        display: block;
+                        height: auto;
+                        > div {
+                            display: flex;
+                            width: 100%;
+                            height: 48px;
+                            &:not(:last-of-type) {
+                                margin-bottom: 10px;
+                            }
+                        }
+                    }
+                    &.array > div > img,
+                    > img {
+                        display: block;
+                        width: 48px;
+                    }
+                    &.array > div > p,
+                    > p {
+                        .align(v-center);
+                        flex: 1;
+                        font-size: 14px;
+                    }
+                }
+            }
+            > p {
+                position: relative;
+                width: 4px;
+                background-color: #535355;
+                > span {
+                    .align(center);
+                    .absolute(m);
+                    left: -11px;
+                    width: 26px;
+                    height: 26px;
+                    border-radius: 50%;
+                    background-color: #535355;
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+}
