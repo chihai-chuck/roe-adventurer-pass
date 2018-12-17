@@ -16,8 +16,31 @@
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-touch-callout: none;
     highlight-color: transparent;
+    user-select: none;
 }
-
+.article-content {
+    ul {
+        padding-left: 0;
+        list-style: none;
+        li {
+            line-height: normal;
+        }
+    }
+    p {
+        line-height: normal;
+        margin-top: 0;
+        margin-bottom: 0;
+        font-size: medium;
+    }
+    img {
+        max-width: none;
+        margin: 0;
+    }
+    div::before,
+    div::after {
+        content: normal;
+    }
+}
 .adventurer-pass {
     z-index: 10000;
     position: fixed;
@@ -35,7 +58,7 @@
     }
     .loading {
         display: none;
-        z-index: 10;
+        z-index: 11000;
         position: fixed;
         top: 0;
         left: 0;
@@ -48,6 +71,7 @@
     }
     .quick-nav {
         .align(v-center);
+        z-index: 10010;
         position: fixed;
         top: 0;
         right: 0;
@@ -67,6 +91,7 @@
                 border-radius: 50%;
                 font-size: 12px;
                 color: #fff;
+                pointer-events: none;
                 &.active {
                     background-color: rgba(0, 0, 0, .4);
                 }
@@ -175,10 +200,14 @@
                             }
                         }
                     }
-                    &.array > div > img,
-                    > img {
+                    &.array > div .img,
+                    .img {
                         display: block;
                         width: 48px;
+                        height: 48px;
+                        background-size: 48px;
+                        background-repeat: no-repeat;
+                        background-position: center;
                     }
                     &.array > div > p,
                     > p {
@@ -206,7 +235,7 @@
         }
     }
     &-popup {
-        z-index: 5000;
+        z-index: 15000;
         position: fixed;
         top: 0;
         left: 0;

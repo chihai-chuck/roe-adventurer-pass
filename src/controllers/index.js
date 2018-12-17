@@ -160,7 +160,7 @@ new Vue({
                             },
                             {
                                 name: "加文 滑板先锋",
-                                desc: "加文总是追逐着不同的极限体验，背着他的装备全世界冒险。对他而言，最刺激最有趣的冒险，总是下一个。<br><br><span style='color:#e1ba89;'>“风是我最好的盟友。”</span><br><br><span style='color:#e1ba89;'>“我不会对任何东西上瘾，除了冒险。”</span>"
+                                desc: "加文总是追逐着不同的极限体验，背着他的装\uFEFF备全世界冒险。对他而言，最刺激最有趣的冒险，总是下一个。<br><br><span style='color:#e1ba89;'>“风是我最好的盟友。”</span><br><br><span style='color:#e1ba89;'>“我不会对任何东西上瘾，除了冒险。”</span>"
                             }
                         ],
                         "2": {
@@ -230,7 +230,7 @@ new Vue({
                         },
                         "20": {
                             name: "加文 滑板先锋 风格A",
-                            desc: "加文总是追逐着不同的极限体验，背着他的装备全世界冒险。对他而言，最刺激最有趣的冒险，总是下一个。<br><br><span style='color:#e1ba89;'>“风是我最好的盟友。”</span><br><br><span style='color:#e1ba89;'>“我不会对任何东西上瘾，除了冒险。”</span>"
+                            desc: "加文总是追逐着不同的极限体验，背着他的装\uFEFF备全世界冒险。对他而言，最刺激最有趣的冒险，总是下一个。<br><br><span style='color:#e1ba89;'>“风是我最好的盟友。”</span><br><br><span style='color:#e1ba89;'>“我不会对任何东西上瘾，除了冒险。”</span>"
                         },
                         "21": {
                             name: "移动工具",
@@ -288,7 +288,7 @@ new Vue({
                         },
                         "36": {
                             name: "加文 滑板先锋 风格B",
-                            desc: "加文总是追逐着不同的极限体验，背着他的装备全世界冒险。对他而言，最刺激最有趣的冒险，总是下一个。<br><br><span style='color:#e1ba89;'>“风是我最好的盟友。”</span><br><br><span style='color:#e1ba89;'>“我不会对任何东西上瘾，除了冒险。”</span>"
+                            desc: "加文总是追逐着不同的极限体验，背着他的装\uFEFF备全世界冒险。对他而言，最刺激最有趣的冒险，总是下一个。<br><br><span style='color:#e1ba89;'>“风是我最好的盟友。”</span><br><br><span style='color:#e1ba89;'>“我不会对任何东西上瘾，除了冒险。”</span>"
                         },
                         "37": {
                             name: "载入界面"
@@ -411,7 +411,7 @@ new Vue({
                         },
                         "70": {
                             name: "加文 涂鸦达人",
-                            desc: "加文总是追逐着不同的极限体验，背着他的装备全世界冒险。对他而言，最刺激最有趣的冒险，总是下一个。<br><br><span style='color:#e1ba89;'>“风是我最好的盟友。”</span><br><br><span style='color:#e1ba89;'>“我不会对任何东西上瘾，除了冒险。”</span>"
+                            desc: "加文总是追逐着不同的极限体验，背着他的装\uFEFF备全世界冒险。对他而言，最刺激最有趣的冒险，总是下一个。<br><br><span style='color:#e1ba89;'>“风是我最好的盟友。”</span><br><br><span style='color:#e1ba89;'>“我不会对任何东西上瘾，除了冒险。”</span>"
                         },
                         "71": {
                             name: "头像"
@@ -429,7 +429,7 @@ new Vue({
                         },
                         "75": {
                             name: "加文 涂鸦达人 风格A",
-                            desc: "加文总是追逐着不同的极限体验，背着他的装备全世界冒险。对他而言，最刺激最有趣的冒险，总是下一个。<br><br><span style='color:#e1ba89;'>“风是我最好的盟友。”</span><br><br><span style='color:#e1ba89;'>“我不会对任何东西上瘾，除了冒险。”</span>"
+                            desc: "加文总是追逐着不同的极限体验，背着他的装\uFEFF备全世界冒险。对他而言，最刺激最有趣的冒险，总是下一个。<br><br><span style='color:#e1ba89;'>“风是我最好的盟友。”</span><br><br><span style='color:#e1ba89;'>“我不会对任何东西上瘾，除了冒险。”</span>"
                         },
                         "76": {
                             name: "移动工具",
@@ -467,7 +467,7 @@ new Vue({
                         },
                         "85": {
                             name: "加文 涂鸦达人 风格B",
-                            desc: "加文总是追逐着不同的极限体验，背着他的装备全世界冒险。对他而言，最刺激最有趣的冒险，总是下一个。<br><br><span style='color:#e1ba89;'>“风是我最好的盟友。”</span><br><br><span style='color:#e1ba89;'>“我不会对任何东西上瘾，除了冒险。”</span>"
+                            desc: "加文总是追逐着不同的极限体验，背着他的装\uFEFF备全世界冒险。对他而言，最刺激最有趣的冒险，总是下一个。<br><br><span style='color:#e1ba89;'>“风是我最好的盟友。”</span><br><br><span style='color:#e1ba89;'>“我不会对任何东西上瘾，除了冒险。”</span>"
                         },
                         "86": {
                             name: "移动工具",
@@ -549,7 +549,7 @@ new Vue({
                 this.config.quickNav.index = index;
                 let jumpId = 1;
                 if(index > 0) jumpId = index * 5;
-                location.hash = "#item" + jumpId;
+                this.$el.scrollTop = this.$refs.list.querySelector("#item" + jumpId).offsetTop;
             }
         },
         detailShow(type, index, arrayIndex) {
@@ -571,9 +571,6 @@ new Vue({
             if(event.target === this.$refs.popup || event.target === this.$refs.popupContent) {
                 this.visible.detail = false;
             }
-        },
-        imageShow(url) {
-            window.location.href = "maxjia:///showPictureDetail#/0#/" + url;
         }
     }
 });
