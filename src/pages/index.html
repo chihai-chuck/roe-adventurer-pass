@@ -24,8 +24,15 @@
         <div class="adventurer-pass-title" v-pre>冒险家通行证 - 第1赛季</div>
         <div class="adventurer-pass-icon" v-pre>
             <div class="adventurer-pass-icon-free"></div>
-            <p></p>
             <div class="adventurer-pass-icon-fees"></div>
+        </div>
+        <div class="adventurer-pass-begin">
+            <div class="line">
+                <em></em>
+                <span></span>
+                <em></em>
+            </div>
+            <p></p>
         </div>
         <ul ref="list" class="adventurer-pass-list" v-once>
             <li v-for="(n,index) in 100" :id="`item${n}`" :key="index">
