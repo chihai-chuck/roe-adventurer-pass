@@ -556,11 +556,11 @@ new Vue({
             if(type === 1 && index === 1 && arrayIndex === void 0) return;
             const prizeType = ["free", "fees"][type];
             if(arrayIndex !== void 0) {
-                this.data.detail.image = `//cdn.max-c.com/wiki/755790/adventurer-pass-first-fees-${index-1}-${arrayIndex}.jpg`;
+                this.data.detail.image = `https://cdn.max-c.com/wiki/755790/adventurer-pass-first-fees-${index-1}-${arrayIndex}.jpg`;
                 this.data.detail.name = this.data.prize[prizeType][index][arrayIndex].name;
                 this.data.detail.desc = this.data.prize[prizeType][index][arrayIndex].desc;
             } else {
-                this.data.detail.image = `//cdn.max-c.com/wiki/755790/adventurer-pass-first-${prizeType}-${index-1}.jpg`;
+                this.data.detail.image = `https://cdn.max-c.com/wiki/755790/adventurer-pass-first-${prizeType}-${index-1}.jpg`;
                 this.data.detail.name = this.data.prize[prizeType][index].name;
                 this.data.detail.desc = this.data.prize[prizeType][index].desc;
             }
