@@ -17,7 +17,9 @@
     -webkit-touch-callout: none;
     highlight-color: transparent;
 }
+
 .adventurer-pass {
+    z-index: 10000;
     position: fixed;
     top: 0;
     left: 0;
@@ -30,6 +32,19 @@
     &::-webkit-scrollbar {
         width: 0;
         height: 0;
+    }
+    .loading {
+        display: none;
+        z-index: 10;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #0e0f12;
+        &[v-cloak] {
+            display: block;
+        }
     }
     .quick-nav {
         .align(v-center);
@@ -81,7 +96,7 @@
             background-position: center bottom 16px;
         }
         > p {
-            width: 4px;
+            width: 2px;
             background-color: #535355;
         }
         &-free {
@@ -175,12 +190,12 @@
             }
             > p {
                 position: relative;
-                width: 4px;
+                width: 2px;
                 background-color: #535355;
                 > span {
                     .align(center);
                     .absolute(m);
-                    left: -11px;
+                    left: -12px;
                     width: 26px;
                     height: 26px;
                     border-radius: 50%;
@@ -188,6 +203,83 @@
                     font-size: 12px;
                 }
             }
+        }
+    }
+    &-popup {
+        z-index: 5000;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        > * {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        &-bg {
+            z-index: 1;
+            background-color: rgba(0,0,0,.55);
+            transition: opacity .3s;
+        }
+        &-content {
+            z-index: 2;
+            .adventurer-pass-detail {
+                .clear-float();
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                min-height: 116px;
+                padding: 10px 10px 10px 116px;
+                background-color: #fff;
+                transition: none .3s;
+                transition-property: opacity, transform;
+                > img {
+                    position: absolute;
+                    top: 10px;
+                    left: 10px;
+                    width: 96px;
+                }
+                &-desc {
+                    width: 100%;
+                    > h5 {
+                        width: 100%;
+                        margin-bottom: 20px;
+                        font-weight: normal;
+                        font-size: 20px;
+                    }
+                    > p {
+                        width: 100%;
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+    }
+    .fade-enter-active,
+    .fade-leave-active {
+        opacity: 1;
+        transition: opacity .3s;
+        .adventurer-pass-popup-bg {
+            opacity: 1;
+        }
+        .adventurer-pass-detail {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
+    }
+    .fade-enter,
+    .fade-leave-to {
+        opacity: 1;
+        .adventurer-pass-popup-bg {
+            opacity: 0;
+        }
+        .adventurer-pass-detail {
+            opacity: 0;
+            transform: translate3d(0, 100px, 0);
         }
     }
 }

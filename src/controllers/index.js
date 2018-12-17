@@ -525,7 +525,15 @@ new Vue({
                             desc: "对于一些人而言，影是一个传奇，而对于另一些人而言，影是他们的噩梦。他捉摸不定，无声无息，像阴影之中一双永远注视你的眼睛。<br><br><span style='color:#e1ba89;'>“阳光照不到的地方，你也看不见影子。”</span><br><br><span style='color:#e1ba89;'>“人们不会歌颂已经已经陨落的传说。”</span>"
                         }
                     }
+                },
+                detail: {
+                    image: "",
+                    name: "",
+                    desc: ""
                 }
+            },
+            visible: {
+                detail: false
             }
         }
     },
@@ -543,6 +551,29 @@ new Vue({
                 if(index > 0) jumpId = index * 5;
                 location.hash = "#item" + jumpId;
             }
+        },
+        detailShow(type, index, arrayIndex) {
+            if(type === 1 && index === 1 && arrayIndex === void 0) return;
+            const prizeType = ["free", "fees"][type];
+            if(arrayIndex !== void 0) {
+                this.data.detail.image = `//cdn.max-c.com/wiki/755790/adventurer-pass-first-fees-${index-1}-${arrayIndex}.jpg`;
+                this.data.detail.name = this.data.prize[prizeType][index][arrayIndex].name;
+                this.data.detail.desc = this.data.prize[prizeType][index][arrayIndex].desc;
+            } else {
+                this.data.detail.image = `//cdn.max-c.com/wiki/755790/adventurer-pass-first-${prizeType}-${index-1}.jpg`;
+                this.data.detail.name = this.data.prize[prizeType][index].name;
+                this.data.detail.desc = this.data.prize[prizeType][index].desc;
+            }
+            this.visible.detail = true;
+        },
+        popupTouch(event) {
+            event.stopPropagation();
+            if(event.target === this.$refs.popup || event.target === this.$refs.popupContent) {
+                this.visible.detail = false;
+            }
+        },
+        imageShow(url) {
+            window.location.href = "maxjia:///showPictureDetail#/0#/" + url;
         }
     }
 });
