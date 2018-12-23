@@ -12,7 +12,9 @@ const gulp = require('gulp'),
     cache = require('gulp-cache'),
     base64 = require('gulp-base64'),
     cheerio = require('gulp-cheerio'),
-    order = require('gulp-order');
+    order = require('gulp-order'),
+    inject = require('gulp-inject'),
+    rename = require('gulp-rename');
 
 gulp.task('build', ['clean'], () => {
     gulp.start('replace');
@@ -25,7 +27,7 @@ gulp.task('clean', () => {
 
 gulp.task('replace', ['build:rev'], () => {
     setTimeout(() => {
-        gulp.start(['replace:css', 'replace:js', 'replace:html']);
+        gulp.start('result');
     }, 1000);
 });
 
@@ -66,7 +68,7 @@ gulp.task('build:image', () => {
 
 gulp.task('build:html', () => {
     return gulp.src('./src/pages/*.html')
-        .pipe(htmlmin({ collapseWhitespace: true }))
+        .pipe(htmlmin({collapseWhitespace: true}))
         .pipe(gulp.dest('./dist'));
 });
 
@@ -81,20 +83,44 @@ gulp.task('build:rev', ['build:image', 'build:less', 'build:js', 'build:html', '
         .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('replace:html', () => {
-    return gulp.src('./dist/**/*.html')
+gulp.task('replace:html', ['clean:css', 'clean:js'], () => {
+    return gulp.src('./dist/index.html')
         .pipe(replace('../assets/images', 'images'))
         .pipe(replace('../assets/fonts', 'fonts'))
         .pipe(cheerio($ => {
             $("script").remove();
             $("link").remove();
-            $("head").append("<link rel='stylesheet' href='./main.css'>");
-            $("body").append("<script src='./main.js'></script>");
+            $("meta").remove();
+        }))
+        .pipe(inject(gulp.src(['dist/main.js', 'dist/main.css']), {
+            relative: true,
+            removeTags: true,
+            transform: (filePath, file) => {
+                if(filePath.slice(-3) === '.js') {
+                    return '<script>' + file.contents.toString('utf8') + '</script>';
+                }
+                if(filePath.slice(-4) === '.css') {
+                    return '<style>' + file.contents.toString('utf8') + '</style>';
+                }
+                return file.contents.toString('utf8');
+            }
+        }))
+        .pipe(replace('<!DOCTYPE html><html><head>', ''))
+        .pipe(replace('</head><body>', ''))
+        .pipe(replace('</body></html>', ''))
+        .pipe(rename(path => {
+            path.basename = "result";
+            path.extname = ".txt";
         }))
         .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('replace:css', ['clean:css'], () => {
+gulp.task('result', ['replace:html'], () => {
+    return gulp.src(['dist/main.js', 'dist/main.css', './dist/index.html'], {read: false})
+        .pipe(clean());
+});
+
+gulp.task('replace:css', () => {
     return gulp.src('./dist/styles/**/*.css')
         .pipe(replace('../assets/images', './images'))
         .pipe(replace('../assets/fonts', './fonts'))
@@ -103,7 +129,7 @@ gulp.task('replace:css', ['clean:css'], () => {
         .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('replace:js', ['clean:js'], () => {
+gulp.task('replace:js', () => {
     return gulp.src('./dist/controllers/**/*.js')
         .pipe(order([
             "lib/*.js",
@@ -113,11 +139,11 @@ gulp.task('replace:js', ['clean:js'], () => {
         .pipe(gulp.dest('./dist'))
 });
 
-gulp.task('clean:js', () => {
+gulp.task('clean:js', ['replace:js'], () => {
     gulp.src('./dist/controllers', {read: false})
         .pipe(clean());
 });
-gulp.task('clean:css', () => {
+gulp.task('clean:css', ['replace:css'], () => {
     gulp.src('./dist/styles', {read: false})
         .pipe(clean());
 });
