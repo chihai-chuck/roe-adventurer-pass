@@ -24,7 +24,7 @@ gulp.task('build:js', gulp.series('build:lib', () => {
     return gulp.src(['./src/controllers/**/*.js', '!./src/controllers/lib/*.js'])
         .pipe(sourcemaps.init())
         .pipe(babel({
-            presets: ['env', 'stage-0']
+            babelrc: true
         }))
         .pipe(uglify())
         .pipe(sourcemaps.write())
@@ -106,4 +106,4 @@ gulp.task('watch', () => {
     gulp.watch('./dev/**/*').on('change', livereload.changed);
 });
 
-gulp.task('dev', gulp.series('serve', gulp.parallel('replace', 'watch')));
+gulp.task('dev', gulp.series('replace', gulp.parallel('serve', 'watch')));
