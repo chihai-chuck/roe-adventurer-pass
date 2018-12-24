@@ -13,29 +13,6 @@ const gulp = require('gulp'),
     livereload = require('gulp-livereload'),
     sourcemaps = require('gulp-sourcemaps');
 
-gulp.task('dev', () => {
-    gulp.src('./dev')
-        .pipe(webserver({
-            livereload: true,
-            open: false,
-            host: "0.0.0.0",
-            port: 55101
-        }));
-    gulp.start(['replace', 'watch']);
-});
-
-gulp.task('watch', () => {
-    gulp.watch('./src/**/*', ['replace']);
-    livereload.listen();
-    gulp.watch(['./dev/**/*']).on('change', livereload.changed);
-});
-
-gulp.task('replace', ['build:rev'], () => {
-    setTimeout(() => {
-        gulp.start(['replace:css', 'replace:html']);
-    }, 1000);
-});
-
 gulp.task('build:lib', () => {
     return gulp.src('./src/controllers/lib/**/*.*')
         .pipe(sourcemaps.init())
@@ -43,7 +20,7 @@ gulp.task('build:lib', () => {
         .pipe(gulp.dest('./dev/controllers/lib'))
 });
 
-gulp.task('build:js', ['build:lib'], () => {
+gulp.task('build:js', gulp.series('build:lib', () => {
     return gulp.src(['./src/controllers/**/*.js', '!./src/controllers/lib/*.js'])
         .pipe(sourcemaps.init())
         .pipe(babel({
@@ -52,7 +29,7 @@ gulp.task('build:js', ['build:lib'], () => {
         .pipe(uglify())
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('./dev/controllers'))
-});
+}));
 
 gulp.task('build:less', () => {
     return gulp.src('./src/styles/*.less')
@@ -89,11 +66,11 @@ gulp.task('build:font', () => {
         .pipe(gulp.dest('./dev/fonts'))
 });
 
-gulp.task('build:rev', ['build:image', 'build:less', 'build:js', 'build:html', 'build:font'], () => {
+gulp.task('build:rev', gulp.series('build:image', 'build:less', 'build:js', 'build:html', 'build:font', () => {
     return gulp.src('./dev/**/*.*(html|js|css)')
         .pipe(replace('.less', '.css'))
         .pipe(gulp.dest('./dev'));
-});
+}));
 
 gulp.task('replace:html', () => {
     return gulp.src('./dev/**/*.html')
@@ -110,3 +87,23 @@ gulp.task('replace:css', () => {
         .pipe(replace('../assets/fonts', '../fonts'))
         .pipe(gulp.dest('./dev/styles'));
 });
+
+gulp.task('replace', gulp.series('build:rev', 'replace:css', 'replace:html'));
+
+gulp.task('serve', () => {
+    return gulp.src('./dev')
+        .pipe(webserver({
+            livereload: true,
+            open: false,
+            host: '0.0.0.0',
+            port: 55101
+        }));
+});
+
+gulp.task('watch', () => {
+    gulp.watch('./src/**/*', gulp.series('replace'));
+    livereload.listen();
+    gulp.watch('./dev/**/*').on('change', livereload.changed);
+});
+
+gulp.task('dev', gulp.series('serve', gulp.parallel('replace', 'watch')));

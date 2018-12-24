@@ -16,19 +16,9 @@ const gulp = require('gulp'),
     inject = require('gulp-inject'),
     rename = require('gulp-rename');
 
-gulp.task('build', ['clean'], () => {
-    gulp.start('replace');
-});
-
 gulp.task('clean', () => {
-    return gulp.src('./dist', {read: false})
+    return gulp.src('./dist', {read: false, allowEmpty: true})
         .pipe(clean());
-});
-
-gulp.task('replace', ['build:rev'], () => {
-    setTimeout(() => {
-        gulp.start('result');
-    }, 1000);
 });
 
 gulp.task('build:lib', () => {
@@ -36,15 +26,14 @@ gulp.task('build:lib', () => {
         .pipe(gulp.dest('./dist/controllers/lib'))
 });
 
-gulp.task('build:js', ['build:lib'], () => {
+gulp.task('build:js', gulp.series('build:lib', () => {
     return gulp.src(['./src/controllers/**/*.js', '!./src/controllers/lib/*.js'])
         .pipe(babel({
-            babelrc: false,
-            presets: ['env', 'stage-0']
+            babelrc: true
         }))
         .pipe(uglify())
         .pipe(gulp.dest('./dist/controllers'))
-});
+}));
 
 gulp.task('build:less', () => {
     return gulp.src('./src/styles/*.less')
@@ -77,48 +66,11 @@ gulp.task('build:font', () => {
         .pipe(gulp.dest('./dist/fonts'))
 });
 
-gulp.task('build:rev', ['build:image', 'build:less', 'build:js', 'build:html', 'build:font'], () => {
+gulp.task('build:rev', gulp.series('build:image', 'build:less', 'build:js', 'build:html', 'build:font', () => {
     return gulp.src('./dist/**/*.*(html|js|css)')
         .pipe(replace('.less', '.css'))
         .pipe(gulp.dest('./dist'));
-});
-
-gulp.task('replace:html', ['clean:css', 'clean:js'], () => {
-    return gulp.src('./dist/index.html')
-        .pipe(replace('../assets/images', 'images'))
-        .pipe(replace('../assets/fonts', 'fonts'))
-        .pipe(cheerio($ => {
-            $("script").remove();
-            $("link").remove();
-            $("meta").remove();
-        }))
-        .pipe(inject(gulp.src(['dist/main.js', 'dist/main.css']), {
-            relative: true,
-            removeTags: true,
-            transform: (filePath, file) => {
-                if(filePath.slice(-3) === '.js') {
-                    return '<script>' + file.contents.toString('utf8') + '</script>';
-                }
-                if(filePath.slice(-4) === '.css') {
-                    return '<style>' + file.contents.toString('utf8') + '</style>';
-                }
-                return file.contents.toString('utf8');
-            }
-        }))
-        .pipe(replace('<!DOCTYPE html><html><head>', ''))
-        .pipe(replace('</head><body>', ''))
-        .pipe(replace('</body></html>', ''))
-        .pipe(rename(path => {
-            path.basename = "result";
-            path.extname = ".txt";
-        }))
-        .pipe(gulp.dest('./dist'));
-});
-
-gulp.task('result', ['replace:html'], () => {
-    return gulp.src(['dist/main.js', 'dist/main.css', './dist/index.html'], {read: false})
-        .pipe(clean());
-});
+}));
 
 gulp.task('replace:css', () => {
     return gulp.src('./dist/styles/**/*.css')
@@ -139,11 +91,48 @@ gulp.task('replace:js', () => {
         .pipe(gulp.dest('./dist'))
 });
 
-gulp.task('clean:js', ['replace:js'], () => {
-    gulp.src('./dist/controllers', {read: false})
+gulp.task('clean:js', () => {
+    return gulp.src('./dist/controllers', {read: false})
         .pipe(clean());
 });
-gulp.task('clean:css', ['replace:css'], () => {
-    gulp.src('./dist/styles', {read: false})
+gulp.task('clean:css', () => {
+    return gulp.src('./dist/styles', {read: false})
         .pipe(clean());
 });
+
+gulp.task('replace:html', () => {
+    return gulp.src('./dist/index.html')
+        .pipe(replace('../assets/images', 'images'))
+        .pipe(replace('../assets/fonts', 'fonts'))
+        .pipe(cheerio($ => {
+            $("script").remove();
+            $("link").remove();
+            $("meta").remove();
+        }))
+        .pipe(inject(gulp.src(['dist/main.js', 'dist/main.css']), {
+            relative: true,
+            removeTags: true,
+            transform: (filePath, file) => {
+                if(filePath.slice(-3) === '.js') {
+                    return `<script>${file.contents}</script>`;
+                }
+                if(filePath.slice(-4) === '.css') {
+                    return `<style>${file.contents}</style>`;
+                }
+                return file.contents;
+            }
+        }))
+        .pipe(replace('<!DOCTYPE html><html><head>', ''))
+        .pipe(replace('</head><body>', ''))
+        .pipe(replace('</body></html>', ''))
+        .pipe(rename(path => {
+            path.basename = "compile";
+            path.extname = ".txt";
+        }))
+        .pipe(gulp.dest('./dist'));
+});
+
+gulp.task('build', gulp.series('clean', 'build:rev', 'replace:css', 'clean:css', 'replace:js', 'clean:js', 'replace:html', () => {
+    return gulp.src(['dist/main.js', 'dist/main.css', './dist/index.html'], {read: false})
+        .pipe(clean());
+}));
