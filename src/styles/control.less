@@ -66,3 +66,69 @@
         color: transparent;
     }
 }
+
+.split-line(@direction:bottom, @color:#eee, @radius:0, @position:relative) {
+    position: @position;
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        box-sizing: border-box;
+        width: 200%;
+        height: calc(200% - 1px);
+        transform: scale(.5, .5);
+        transform-origin: 0 0;
+        pointer-events: none;
+        border-radius: 2 * @radius;
+        .split-lines(0) {
+            border-top: 1PX solid @color;
+            border-left: 1PX solid @color;
+        }
+        .split-lines(1) {
+            border-top: 1PX solid @color;
+            border-right: 1PX solid @color;
+        }
+        .split-lines(2) {
+            border-bottom: 1PX solid @color;
+            border-left: 1PX solid @color;
+        }
+        .split-lines(3) {
+            border-bottom: 1PX solid @color;
+            border-right: 1PX solid @color;
+        }
+        .split-lines(4) {
+            border-top: 1PX solid @color;
+            border-bottom: 1PX solid @color;
+        }
+        .split-lines(5) {
+            border-left: 1PX solid @color;
+            border-right: 1PX solid @color;
+        }
+        .split-lines(6) {
+            border-top: 1PX solid @color;
+            .split-lines(5);
+        }
+        .split-lines(7) {
+            border-bottom: 1PX solid @color;
+            .split-lines(5);
+        }
+        .split-lines(8) {
+            border-left: 1PX solid @color;
+            .split-lines(4);
+        }
+        .split-lines(9) {
+            border-right: 1PX solid @color;
+            .split-lines(4);
+        }
+        & when (iskeyword(@direction)) {
+            border-@{direction}: 1PX solid @color;
+            & when (@direction=all) {
+                border: 1PX solid @color;
+            }
+        }
+        & when (isnumber(@direction)) {
+            .split-lines(@direction);
+        }
+    }
+}
