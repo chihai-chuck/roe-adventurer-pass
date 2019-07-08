@@ -8,9 +8,10 @@ new Vue({
                     touching: false,
                     caption: {
                         "0": "F",
-                        "20": "L"
+                        "10": "L"
                     }
-                }
+                },
+                titleHeight: 0
             },
             data: {
                 prize: {
@@ -537,30 +538,33 @@ new Vue({
             }
         }
     },
+    mounted() {
+        this.config.titleHeight = this.$refs.title.offsetHeight;
+    },
     methods: {
         quickNavTouchMove(event) {
             this.config.quickNav.touching = true;
             const $quickNavFirstChildren = this.$refs.quickNav.firstElementChild;
             const index = Math.floor((event.changedTouches[0].clientY - $quickNavFirstChildren.offsetTop) / $quickNavFirstChildren.offsetHeight);
-            if(index >= 0 && index <= 20) this.quickNavTouchActive(index);
+            if(index >= 0 && index <= 10) this.quickNavTouchActive(index);
         },
         quickNavTouchActive(index) {
             if(index !== this.config.quickNav.index) {
                 this.config.quickNav.index = index;
                 let jumpId = 1;
-                if(index > 0) jumpId = index * 5;
-                this.$el.scrollTop = this.$refs.list.querySelector("#item" + jumpId).offsetTop;
+                if(index > 0) jumpId = index * 10;
+                this.$refs.scroll.scrollTop = this.$refs.list.querySelector("#item" + jumpId).offsetTop - this.config.titleHeight;
             }
         },
         detailShow(type, index, arrayIndex) {
             if(type === 1 && index === 1 && arrayIndex === void 0) return;
             const prizeType = ["free", "fees"][type];
             if(arrayIndex !== void 0) {
-                this.data.detail.image = `https://cdn.max-c.com/wiki/755790/adventurer-pass-first-fees-${index-1}-${arrayIndex}.jpg`;
+                this.data.detail.image = `//cdn.max-c.com/wiki/755790/adventurer-pass-first-fees-${index-1}-${arrayIndex}.jpg?v=2`;
                 this.data.detail.name = this.data.prize[prizeType][index][arrayIndex].name;
                 this.data.detail.desc = this.data.prize[prizeType][index][arrayIndex].desc;
             } else {
-                this.data.detail.image = `https://cdn.max-c.com/wiki/755790/adventurer-pass-first-${prizeType}-${index-1}.jpg`;
+                this.data.detail.image = `//cdn.max-c.com/wiki/755790/adventurer-pass-first-${prizeType}-${index-1}.jpg?v=2`;
                 this.data.detail.name = this.data.prize[prizeType][index].name;
                 this.data.detail.desc = this.data.prize[prizeType][index].desc;
             }

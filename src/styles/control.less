@@ -67,10 +67,10 @@
     }
 }
 
-.split-line(@direction:bottom, @color:#eee, @radius:0, @position:relative) {
+.split-line(@direction:bottom, @color:#ddd, @radius:0, @position:relative) {
     position: @position;
     &::before {
-        content: "";
+        content: "" !important;
         position: absolute;
         top: 0;
         left: 0;
@@ -129,6 +129,7 @@
         }
         & when (isnumber(@direction)) {
             .split-lines(@direction);
+
         }
     }
 }

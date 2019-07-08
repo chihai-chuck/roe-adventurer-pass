@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
     <script src="../controllers/lib/vue.min.js"></script>
+    <link rel="stylesheet" href="../styles/heybox-shim.less">
     <link rel="stylesheet" href="../styles/index.less">
     <!-- inject:css -->
     <!-- endinject -->
@@ -12,56 +13,63 @@
 <body>
     <div class="adventurer-pass">
         <p class="loading" v-cloak></p>
-        <ul ref="quickNav" class="quick-nav" :class="{touching:config.quickNav.touching}" @touchmove.prevent.stop="quickNavTouchMove" @touchend="config.quickNav.touching=false">
-            <li class="quick-nav-item" v-for="(n,index) in 21" :key="index" @click.stop="quickNavTouchActive(index)"><span :class="{active:config.quickNav.index===index&&config.quickNav.touching}" v-text="config.quickNav.caption[index]||index*5"></span></li>
-        </ul>
+        <div class="adventurer-pass-title" ref="title">冒险家通行证 - 第1赛季</div>
 
-        <div class="adventurer-pass-title" v-pre>冒险家通行证 - 第1赛季</div>
-        <div class="adventurer-pass-icon" v-pre>
-            <div class="adventurer-pass-icon-free"></div>
-            <div class="adventurer-pass-icon-fees"></div>
-        </div>
-        <div class="adventurer-pass-begin">
-            <div class="line">
-                <em></em>
-                <span></span>
-                <em></em>
-            </div>
-            <p></p>
-        </div>
-        <ul ref="list" class="adventurer-pass-list" v-once>
-            <li v-for="(n,index) in 100" :id="`item${n}`" :key="index">
-                <div class="adventurer-pass-list-free">
-                    <div class="adventurer-pass-list-item" v-if="data.prize.free[n]" @click="detailShow(0,n)">
-                        <p v-text="data.prize.free[n].name"></p>
-                        <span class="img" :style="{backgroundImage:`url(https://cdn.max-c.com/wiki/755790/adventurer-pass-first-free-${index}.jpg)`}"></span>
+        <div class="adventurer-pass-body">
+            <div class="adventurer-pass-content">
+                <div class="adventurer-pass-scroll" ref="scroll">
+                    <div class="adventurer-pass-icon" v-pre>
+                        <div class="adventurer-pass-icon-free"></div>
+                        <div class="adventurer-pass-icon-fees"></div>
                     </div>
-                </div>
-                <p><span v-text="n"></span></p>
-                <div class="adventurer-pass-list-fees">
-                    <div class="adventurer-pass-list-item" :class="{array:data.prize.fees[n] instanceof Array}" @click="detailShow(1,n)">
-                        <template v-if="data.prize.fees[n] instanceof Array">
-                            <div v-for="(item,i) in data.prize.fees[n]" :key="i" @click.stop.prevent="detailShow(1,n,i)">
-                                <span class="img" :style="{backgroundImage:`url(https://cdn.max-c.com/wiki/755790/adventurer-pass-first-fees-${index}-${i}.jpg)`}"></span>
-                                <p v-text="item.name"></p>
+                    <div class="adventurer-pass-begin">
+                        <div class="line">
+                            <em></em>
+                            <span></span>
+                            <em></em>
+                        </div>
+                        <p></p>
+                    </div>
+                    <ul ref="list" class="adventurer-pass-list" v-once>
+                        <li v-for="(n,index) in 100" :id="`item${n}`" :key="index">
+                            <div class="adventurer-pass-list-free">
+                                <div class="adventurer-pass-list-item" v-if="data.prize.free[n]" @click="detailShow(0,n)">
+                                    <p v-text="data.prize.free[n].name"></p>
+                                    <span class="img" :style="{backgroundImage:`url(https://cdn.max-c.com/wiki/755790/adventurer-pass-first-free-${index}.jpg)`}"></span>
+                                </div>
                             </div>
-                        </template>
-                        <template v-else>
-                            <span class="img" :style="{backgroundImage:`url(https://cdn.max-c.com/wiki/755790/adventurer-pass-first-fees-${index}.jpg)`}"></span>
-                            <p v-text="data.prize.fees[n].name"></p>
-                        </template>
+                            <p><span v-text="n"></span></p>
+                            <div class="adventurer-pass-list-fees">
+                                <div class="adventurer-pass-list-item" :class="{array:data.prize.fees[n] instanceof Array}" @click="detailShow(1,n)">
+                                    <template v-if="data.prize.fees[n] instanceof Array">
+                                        <div v-for="(item,i) in data.prize.fees[n]" :key="i" @click.stop.prevent="detailShow(1,n,i)">
+                                            <span class="img" :style="{backgroundImage:`url(https://cdn.max-c.com/wiki/755790/adventurer-pass-first-fees-${index}-${i}.jpg?v=2)`}"></span>
+                                            <p v-text="item.name"></p>
+                                        </div>
+                                    </template>
+                                    <template v-else>
+                                        <span class="img" :style="{backgroundImage:`url(https://cdn.max-c.com/wiki/755790/adventurer-pass-first-fees-${index}.jpg?v=2)`}"></span>
+                                        <p v-text="data.prize.fees[n].name"></p>
+                                    </template>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="adventurer-pass-end">
+                        <p></p>
+                        <div class="line">
+                            <em></em>
+                            <span></span>
+                            <em></em>
+                        </div>
+                        <div class="author">Designer&nbsp;&amp;&nbsp;Developer&nbsp;by&nbsp;<span class="editor-name" data-id="875495">柳飞花落</span></div>
                     </div>
                 </div>
-            </li>
-        </ul>
-        <div class="adventurer-pass-end">
-            <p></p>
-            <div class="line">
-                <em></em>
-                <span></span>
-                <em></em>
             </div>
-            <div class="author">Designer&nbsp;&amp;&nbsp;Developer&nbsp;by&nbsp;<span class="editor-name" data-id="875495">柳飞花落</span></div>
+
+            <ul ref="quickNav" class="quick-nav" :class="{touching:config.quickNav.touching}" @touchmove.prevent.stop="quickNavTouchMove" @touchend="config.quickNav.touching=false">
+                <li class="quick-nav-item" v-for="(n,index) in 11" :key="index" @click.stop="quickNavTouchActive(index)"><span :class="{active:config.quickNav.index===index&&config.quickNav.touching}" v-text="config.quickNav.caption[index]||index*10"></span></li>
+            </ul>
         </div>
 
         <transition name="fade">
@@ -72,7 +80,7 @@
                         <img :src="data.detail.image" :alt="data.detail.name">
                         <div class="adventurer-pass-detail-desc">
                             <h5 v-text="data.detail.name"></h5>
-                            <p v-html="data.detail.desc"></p>
+                            <p v-html="data.detail.desc" v-if="data.detail.desc"></p>
                         </div>
                     </div>
                 </div>
