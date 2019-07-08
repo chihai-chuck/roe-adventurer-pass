@@ -3,6 +3,7 @@ new Vue({
     data() {
         return {
             config: {
+                version: "{{replace-version}}",
                 quickNav: {
                     index: 0,
                     touching: false,
@@ -24,6 +25,11 @@ new Vue({
             visible: {
                 detail: false
             }
+        }
+    },
+    computed: {
+        imgVersion() {
+            return this.config.version === "s1" ? "first" : this.config.version;
         }
     },
     mounted() {
@@ -48,11 +54,11 @@ new Vue({
             if(type === 1 && index === 1 && arrayIndex === void 0) return;
             const prizeType = ["free", "fees"][type];
             if(arrayIndex !== void 0) {
-                this.data.detail.image = `//cdn.max-c.com/wiki/755790/adventurer-pass-first-fees-${index-1}-${arrayIndex}.jpg?v=2`;
+                this.data.detail.image = `//cdn.max-c.com/wiki/755790/adventurer-pass-${this.imgVersion}-fees-${index-1}-${arrayIndex}.jpg?v=99`;
                 this.data.detail.name = this.data.prize[prizeType][index][arrayIndex].name;
                 this.data.detail.desc = this.data.prize[prizeType][index][arrayIndex].desc;
             } else {
-                this.data.detail.image = `//cdn.max-c.com/wiki/755790/adventurer-pass-first-${prizeType}-${index-1}.jpg?v=2`;
+                this.data.detail.image = `//cdn.max-c.com/wiki/755790/adventurer-pass-${this.imgVersion}-${prizeType}-${index-1}.jpg?v=99`;
                 this.data.detail.name = this.data.prize[prizeType][index].name;
                 this.data.detail.desc = this.data.prize[prizeType][index].desc;
             }

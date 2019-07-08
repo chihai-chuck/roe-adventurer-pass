@@ -13,7 +13,7 @@
 <body>
     <div class="adventurer-pass">
         <p class="loading" v-cloak></p>
-        <div class="adventurer-pass-title" ref="title">冒险家通行证 - 第1赛季</div>
+        <div class="adventurer-pass-title" ref="title">冒险家通行证 - 第{{config.version.replace('s','')}}赛季</div>
 
         <div class="adventurer-pass-body">
             <div class="adventurer-pass-content">
@@ -35,7 +35,7 @@
                             <div class="adventurer-pass-list-free">
                                 <div class="adventurer-pass-list-item" v-if="data.prize.free[n]" @click="detailShow(0,n)">
                                     <p v-text="data.prize.free[n].name"></p>
-                                    <span class="img" :style="{backgroundImage:`url(https://cdn.max-c.com/wiki/755790/adventurer-pass-first-free-${index}.jpg)`}"></span>
+                                    <span class="img" :style="{backgroundImage:`url(https://cdn.max-c.com/wiki/755790/adventurer-pass-${imgVersion}-free-${index}.jpg)`}"></span>
                                 </div>
                             </div>
                             <p><span v-text="n"></span></p>
@@ -43,12 +43,12 @@
                                 <div class="adventurer-pass-list-item" :class="{array:data.prize.fees[n] instanceof Array}" @click="detailShow(1,n)">
                                     <template v-if="data.prize.fees[n] instanceof Array">
                                         <div v-for="(item,i) in data.prize.fees[n]" :key="i" @click.stop.prevent="detailShow(1,n,i)">
-                                            <span class="img" :style="{backgroundImage:`url(https://cdn.max-c.com/wiki/755790/adventurer-pass-first-fees-${index}-${i}.jpg?v=2)`}"></span>
+                                            <span class="img" :style="{backgroundImage:`url(https://cdn.max-c.com/wiki/755790/adventurer-pass-${imgVersion}-fees-${index}-${i}.jpg?v=99)`}"></span>
                                             <p v-text="item.name"></p>
                                         </div>
                                     </template>
                                     <template v-else>
-                                        <span class="img" :style="{backgroundImage:`url(https://cdn.max-c.com/wiki/755790/adventurer-pass-first-fees-${index}.jpg?v=2)`}"></span>
+                                        <span class="img" :style="{backgroundImage:`url(https://cdn.max-c.com/wiki/755790/adventurer-pass-${imgVersion}-fees-${index}.jpg?v=99)`}"></span>
                                         <p v-text="data.prize.fees[n].name"></p>
                                     </template>
                                 </div>
