@@ -14,7 +14,9 @@ const gulp = require('gulp'),
     cheerio = require('gulp-cheerio'),
     order = require('gulp-order'),
     inject = require('gulp-inject'),
-    rename = require('gulp-rename');
+    rename = require('gulp-rename'),
+    clipboard = require('gulp-clipboard'),
+    pipeconsole = require('gulp-pipeconsole');
 
 gulp.task('clean', () => {
     return gulp.src('./dist', {read: false, allowEmpty: true})
@@ -28,6 +30,7 @@ gulp.task('build:lib', () => {
 
 gulp.task('build:js', gulp.series('build:lib', () => {
     return gulp.src(['./src/controllers/**/*.js', '!./src/controllers/lib/*.js'])
+        .pipe(replace('"{{replace-data}}"', JSON.stringify(require("./data/"+process.argv[process.argv.length-1]))))
         .pipe(babel({
             babelrc: true
         }))
@@ -132,7 +135,13 @@ gulp.task('replace:html', () => {
         .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('build', gulp.series('clean', 'build:rev', 'replace:css', 'clean:css', 'replace:js', 'clean:js', 'replace:html', () => {
+gulp.task('clipboard:copy', () => {
+    return gulp.src('./dist/compile.txt')
+        .pipe(clipboard())
+        .pipe(pipeconsole("编译内容文本已自动复制到剪贴板，可直接在需要的地方粘贴。"));
+});
+
+gulp.task('build', gulp.series('clean', 'build:rev', 'replace:css', 'clean:css', 'replace:js', 'clean:js', 'replace:html', 'clipboard:copy', () => {
     return gulp.src(['dist/main.js', 'dist/main.css', './dist/index.html'], {read: false})
         .pipe(clean());
 }));
