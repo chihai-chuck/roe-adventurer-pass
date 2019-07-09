@@ -5,7 +5,11 @@
     "main": "gulpfile.js",
     "scripts": {
         "dev-s1": "gulp dev --gulpfile gulpfile-dev.js --type s1",
-        "build-s1": "gulp build --type s1"
+        "dev-s2": "gulp dev --gulpfile gulpfile-dev.js --type s2",
+        "dev-s3": "gulp dev --gulpfile gulpfile-dev.js --type s3",
+        "build-s1": "gulp build --type s1",
+        "build-s2": "gulp build --type s2",
+        "build-s3": "gulp build --type s3"
     },
     "author": "chuck@chihai.me",
     "devDependencies": {
